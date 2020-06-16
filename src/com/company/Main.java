@@ -4,16 +4,15 @@ import java.util.Scanner;
 
 public class Main {
 
-    private static int numberOfCriteria=0;
+
     public static void main(String[] args) {
         String Password;
         Scanner sc=new Scanner(System.in);
-        Password=sc.next();
+        Password=sc.nextLine();
         isValidatePassword(Password);
-        System.out.println(isCriteria());
-        System.out.println(numberOfCriteria);
     }
-    public static int isCriteria(){
+
+    public static int isCriteria(int numberOfCriteria){
         if(numberOfCriteria==8)
             return 3;
         else if(numberOfCriteria>=5)
@@ -25,29 +24,34 @@ public class Main {
        return 0;
     }
     public static void isValidatePassword(String Password){
+         int numberOfCriteria=0;
           char[] passChars=Password.toCharArray();
-          System.out.println(isSpecialCharacter(passChars));
-            if(isValidateLength(Password)){ numberOfCriteria++; }
-            if(isUppercase(passChars)){ status = true; }
-            if(isLowercase(passChars)){ status=true; }
-            if(isNumberic(passChars)){ status= true; }
-            if(isSpecialCharacter(passChars)){ status= true; }
-            if(isConsecutiveDigits(passChars)){ status= true; }
+            if(isValidateLength(Password)){ numberOfCriteria=numberOfCriteria+2;
+                System.out.println("length :"+numberOfCriteria);}
+            if(isUppercase(passChars)){ numberOfCriteria++; System.out.println("uppercase :"+numberOfCriteria);}
+            if(isLowercase(passChars)){ numberOfCriteria++; System.out.println("lowercase :"+numberOfCriteria);}
+            if(isNumberic(passChars)){ numberOfCriteria++; System.out.println("Nummeric :"+numberOfCriteria);}
+            if(isSpecialCharacter(passChars)){ numberOfCriteria++; System.out.println("Special :"+numberOfCriteria);}
+            if (isNumberic(passChars)) {
+                if(isConsecutiveDigits(passChars)){ numberOfCriteria++; System.out.println("ConDigit :"+numberOfCriteria);}
+            }
+        System.out.println("Criteria :"+isCriteria(numberOfCriteria));
+        System.out.println("last :"+ numberOfCriteria);
 
     }
     public static boolean isValidateLength(String Password){
+        System.out.println(Password.length());
         if(Password.length()>=8 && Password.length()<=16) {
-            numberOfCriteria=numberOfCriteria+2;
             return true;
         }
-        return false
+        return false;
     }
     public static boolean isUppercase(char[] passChars){
         for (char ch: passChars
              ) {
             if(Character.isUpperCase(ch))
             {
-                numberOfCriteria++;
+                return true;
             }
         }
         return false;
@@ -57,18 +61,16 @@ public class Main {
         ) {
             if(Character.isLowerCase(ch))
             {
-                numberOfCriteria++;
                 return true;
             }
         }
         return false;
     }
-    public static void isNumberic(char[] passChars){
+    public static boolean isNumberic(char[] passChars){
         for (char ch: passChars
         ) {
             if(Character.isDigit(ch))
             {
-                numberOfCriteria++;
                 return true;
             }
         }
@@ -85,7 +87,7 @@ public class Main {
             if(String.valueOf(ch).matches("[ ]"))
                 status=false;
         }
-        if(status){ numberOfCriteria++;}
+        if(status){ return true; }
         return status;
     }
     //        String regex= "([a-z]*)(?<![A-Z])[A-Z]{2}(?![A-Z])([a-z]*)";
@@ -119,7 +121,6 @@ public class Main {
                     continue;
             }
         }
-        numberOfCriteria++;
         return true;
     }
 
