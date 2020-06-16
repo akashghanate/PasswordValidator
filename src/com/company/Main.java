@@ -26,8 +26,11 @@ public class Main {
     public static void isValidatePassword(String Password){
          int numberOfCriteria=0;
           char[] passChars=Password.toCharArray();
-            if(isValidateLength(Password)){ numberOfCriteria=numberOfCriteria+2;
-                System.out.println("length :"+numberOfCriteria);}
+        System.out.println(Password.length());
+            if(Password.length()>=8){numberOfCriteria++;
+                System.out.println("minlen :"+numberOfCriteria);}
+        if(Password.length()<=16){numberOfCriteria++;
+            System.out.println("maxlen :"+numberOfCriteria);}
             if(isUppercase(passChars)){ numberOfCriteria++; System.out.println("uppercase :"+numberOfCriteria);}
             if(isLowercase(passChars)){ numberOfCriteria++; System.out.println("lowercase :"+numberOfCriteria);}
             if(isNumberic(passChars)){ numberOfCriteria++; System.out.println("Nummeric :"+numberOfCriteria);}
@@ -39,13 +42,7 @@ public class Main {
         System.out.println("last :"+ numberOfCriteria);
 
     }
-    public static boolean isValidateLength(String Password){
-        System.out.println(Password.length());
-        if(Password.length()>=8 && Password.length()<=16) {
-            return true;
-        }
-        return false;
-    }
+
     public static boolean isUppercase(char[] passChars){
         for (char ch: passChars
              ) {
@@ -85,9 +82,8 @@ public class Main {
                     status=true;
                 }
             if(String.valueOf(ch).matches("[ ]"))
-                status=false;
+                return false;
         }
-        if(status){ return true; }
         return status;
     }
     //        String regex= "([a-z]*)(?<![A-Z])[A-Z]{2}(?![A-Z])([a-z]*)";
