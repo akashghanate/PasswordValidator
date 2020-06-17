@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 public class Main {
 
-
+   static int numberOfCriteria;
     public static void main(String[] args) {
         String Password;
         Scanner sc=new Scanner(System.in);
@@ -25,24 +25,18 @@ public class Main {
        return 0;
     }
     public static void isValidatePassword(String Password){
-         int numberOfCriteria=0;
-          char[] passChars=Password.toCharArray();
-        System.out.println(Password.length());
-            if(Password.length()>=8){numberOfCriteria++;
-                System.out.println("minlen :"+numberOfCriteria);}
-        if(Password.length()<=16){numberOfCriteria++;
-            System.out.println("maxlen :"+numberOfCriteria);}
-            if(isUppercase(passChars)){ numberOfCriteria++; System.out.println("uppercase :"+numberOfCriteria);}
-            if(isLowercase(passChars)){ numberOfCriteria++; System.out.println("lowercase :"+numberOfCriteria);}
-            if(isNumberic(passChars)){ numberOfCriteria++; System.out.println("Nummeric :"+numberOfCriteria);}
-            if(isSpecialCharacter(passChars)){ numberOfCriteria++; System.out.println("Special :"+numberOfCriteria);}
-            if(isnoConsecutiveUpper_LowerCase(passChars)){ numberOfCriteria++; System.out.println("ConU/L :"+numberOfCriteria);}
-            if (isNumberic(passChars)) {
-                if(isnoConsecutiveDigits(passChars)){ numberOfCriteria++; System.out.println("ConDigit :"+numberOfCriteria);}
+        char[] passChars=Password.toCharArray();
+        if(Password.length()>=8){numberOfCriteria++;}
+        if(Password.length()<=16){numberOfCriteria++;}
+        if(isUppercase(passChars)){ numberOfCriteria++; }
+        if(isLowercase(passChars)){ numberOfCriteria++; }
+        if(isNumeric(passChars)){ numberOfCriteria++; }
+        if(isSpecialCharacter(passChars)){ numberOfCriteria++;}
+        if(isnoConsecutiveUpper_LowerCase(passChars)){ numberOfCriteria++; }
+        if (isNumeric(passChars)) {
+            if(isnoConsecutiveDigits(passChars)){ numberOfCriteria++;}
             }
-        System.out.println("Criteria :"+isCriteria(numberOfCriteria));
-        System.out.println("last :"+ numberOfCriteria);
-
+        System.out.println(isCriteria(numberOfCriteria));
     }
 
     public static boolean isUppercase(char[] passChars){
@@ -65,7 +59,7 @@ public class Main {
         }
         return false;
     }
-    public static boolean isNumberic(char[] passChars){
+    public static boolean isNumeric(char[] passChars){
         for (char ch: passChars
         ) {
             if(Character.isDigit(ch))
@@ -78,26 +72,25 @@ public class Main {
     public static boolean isSpecialCharacter(char[] passChars) {
         boolean status=false;
         for (char ch: passChars) {
-            //checks for first
+            //checks for first occurrence of special character
             if (String.valueOf(ch).matches("[^A-Za-z0-9 ]"))
                 {
                     status=true;
                 }
+            //checks for blank space
             if(String.valueOf(ch).matches("[ ]"))
                 return false;
         }
         return status;
     }
-
     public static boolean isnoConsecutiveDigits(char[] passChars){
         for (int i = 0; i <passChars.length-1 ; i++) {
             if(Character.isDigit(passChars[i]) && Character.isDigit(passChars[i+1])){
-                if((Character.valueOf(passChars[i])+1)==Character.valueOf(passChars[i+1])
-                || (Character.valueOf(passChars[i])==(Character.valueOf(passChars[i+1])+1))){
+                //check for consecutive numbers both in ascending and descending order
+                if((passChars[i] +1)== passChars[i + 1]
+                || (passChars[i] ==(passChars[i + 1] +1))){
                     return false;
                 }
-                else
-                    continue;
             }
         }
         return true;
@@ -107,13 +100,15 @@ public class Main {
 
         for (int i = 0; i <passChars.length-2 ; i++) {
             if (Character.isLetter(passChars[i])) {
-                if(Character.isUpperCase(passChars[i])==true && Character.isUpperCase(passChars[i+1])==true
-                        && Character.isUpperCase(passChars[i+1])==true && Character.isUpperCase(passChars[i+2])==true)
+                //check for more than 2 uppercase in consecutive order
+                if(Character.isUpperCase(passChars[i]) && Character.isUpperCase(passChars[i+1])
+                        && Character.isUpperCase(passChars[i+1]) && Character.isUpperCase(passChars[i+2]))
                 {
                     return false;
                 }
-                else if(Character.isLowerCase(passChars[i])==true && Character.isLowerCase(passChars[i+1])==true
-                        && Character.isLowerCase(passChars[i+1])==true && Character.isLowerCase(passChars[i+2])==true){
+                //check for more than 2 lowercase in consecutive order
+                else if(Character.isLowerCase(passChars[i]) && Character.isLowerCase(passChars[i+1])
+                        && Character.isLowerCase(passChars[i+1]) && Character.isLowerCase(passChars[i+2])){
                     return false;
                 }
             }
